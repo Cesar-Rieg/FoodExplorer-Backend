@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS Usuario (
     DataDeCriacao TIMESTAMP, 
     DataDeAlteracao TIMESTAMP NULL,
     Excluido BIT DEFAULT 0,
-	DataDeExclusao TIMESTAMP NULL,
-	FOREIGN KEY (ImagemId) REFERENCES Imagem(Id),
+    DataDeExclusao TIMESTAMP NULL,
+    FOREIGN KEY (ImagemId) REFERENCES Imagem(Id),
     FOREIGN KEY (PerfilDeUsuarioId) REFERENCES PerfilDeUsuario(Id)
 );
 `;
