@@ -33,11 +33,13 @@ app.use((error, request, response, next) => {
     console.error(error);
 
     const _databaseErrorTranslateService = new DatabaseErrorTranslateService();
+    const databaseError = _databaseErrorTranslateService.GetDatabaseError(error);
+    
     return response.status(HttpStatusCode.InternalServerError).json({
         Status: "Error",
         StatusCode: HttpStatusCode.InternalServerError,
-        Message: "Internal server error",
-        DatabaseError: _databaseErrorTranslateService.GetDatabaseError(error)
+        Message: databaseError || "Internal server error",
+        
     })
 });
 

@@ -38,7 +38,7 @@ class UsuarioValidator {
     }
 
     async GetUsuarioByEmailValidateRequestAsync(usuarioRequestDto) {
-        await this.AppluRulesToUsuarioRequestDto(usuarioRequestDto);
+        await this.ApplyRulesToUsuarioRequestDto(usuarioRequestDto);
         await this.ApplyRulesToEmailAsync(usuarioRequestDto);
         await this.ExistsByEmailAsync(usuarioRequestDto);
     }
@@ -113,6 +113,10 @@ class UsuarioValidator {
             throw new ApiException("A Senha do usuário é obrigatório.", HttpStatusCode.BadRequest);
         }
 
+        if (usuarioRequestDto.Senha.length < 6) {
+            throw new ApiException("A Senha do usuário deve conter no mínimo 6 caracteres.", HttpStatusCode.BadRequest);
+        }
+
         return true;
     }
 
@@ -129,7 +133,7 @@ class UsuarioValidator {
         let usuario = await _usuarioRepository.GetUsuarioByEmailAsync(usuarioRequestDto.Email);
 
         if (!usuario || usuario === null || usuario === undefined) {
-            throw new ApiException("Não foi possível encontrar o usuário informado.", HttpStatusCode.Accepted);
+            throw new ApiException("Não foi possível encontrar o usuário informado.", HttpStatusCode.BadRequest);
         }
 
         return true;
@@ -140,7 +144,7 @@ class UsuarioValidator {
         let usuario = await _usuarioRepository.GetUsuarioByIdAsync(usuarioRequestDto.Id);
 
         if (!usuario || usuario === null || usuario === undefined) {
-            throw new ApiException("Não foi possível encontrar o usuário informado.", HttpStatusCode.Accepted);
+            throw new ApiException("Não foi possível encontrar o usuário informado.", HttpStatusCode.BadRequest);
         }
 
         return true;

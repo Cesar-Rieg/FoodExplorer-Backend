@@ -1,4 +1,5 @@
 const SqliteConnection = require("../Database/Sqlite");
+const PerfilDeUsuarioConstants = require("../Constants/Discriminators/PerfilDeUsuarioConstants.js");
 
 class UsuarioRepository {
 
@@ -13,22 +14,6 @@ class UsuarioRepository {
             usuarioDto.PerfilDeUsuarioId,
             usuarioDto.DataDeCriacao
         ];
-
-        const query = ` 
-        INSERT INTO Usuario
-            (Id, Nome, Email, Senha, PerfilDeUsuarioId, DataDeCriacao)
-        VALUES
-            (
-                '${parametrosSql[0]}',
-                '${parametrosSql[1]}',
-                '${parametrosSql[2]}',
-                '${parametrosSql[3]}',
-                '${parametrosSql[4]}',
-                '${parametrosSql[5]}'
-            );`
-
-        console.log(query)
-
 
         return await database.run(`
             INSERT INTO Usuario
@@ -85,6 +70,11 @@ class UsuarioRepository {
     async GetUsuarioByEmailAsync(email) {
         const database = await SqliteConnection();
 
+        let parametrosSql = [
+            PerfilDeUsuarioConstants.Administrador,
+            email
+        ];
+
         return await database.get(`
             SELECT
                 Usuario.Id,
@@ -95,6 +85,7 @@ class UsuarioRepository {
                 Imagem.Url AS UrlDaImagem,
                 Usuario.PerfilDeUsuarioId,
                 PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
+                (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
                 Usuario.DataDeCriacao,
                 Usuario.DataDeAlteracao
             FROM 
@@ -103,11 +94,17 @@ class UsuarioRepository {
                 LEFT JOIN Imagem ON Usuario.ImagemId = Imagem.Id
             WHERE
                 Usuario.Email = (?)
-        `, [email]);
+                AND Usuario.Excluido = 0
+        `, parametrosSql);
     }
 
     async GetUsuarioByIdAsync(id) {
         const database = await SqliteConnection();
+
+        let parametrosSql = [
+            PerfilDeUsuarioConstants.Administrador,
+            id
+        ];
 
         return await database.get(`
             SELECT
@@ -119,6 +116,7 @@ class UsuarioRepository {
                 Imagem.Url AS UrlDaImagem,
                 Usuario.PerfilDeUsuarioId,
                 PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
+                (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
                 Usuario.DataDeCriacao,
                 Usuario.DataDeAlteracao
             FROM 
@@ -127,7 +125,8 @@ class UsuarioRepository {
                 LEFT JOIN Imagem ON Usuario.ImagemId = Imagem.Id
             WHERE
                 Usuario.Id = (?)
-        `, [id]);
+                AND Usuario.Excluido = 0
+        `, parametrosSql);
     }
 }
 

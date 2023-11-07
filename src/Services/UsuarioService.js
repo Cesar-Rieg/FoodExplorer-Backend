@@ -27,7 +27,6 @@ class UsuarioService {
             DataDeCriacao: _dateTimeExtensions.DateTimeNow()
         };
 
-        // REMOVER QUERY E CONSOLE.LOG
         return await _usuarioRepository.AdicionarUsuarioAsync(usuarioDto);
     }
 
