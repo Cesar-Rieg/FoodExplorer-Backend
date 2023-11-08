@@ -3,7 +3,7 @@ const multer = require("multer");
 const crypto = require("crypto");
 const GuidExtensions = require("../Extensions/GuidExtensions.js");
 
-const TEMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp");
+const TEMP_FOLDER = path.resolve(__dirname, "..", "..", "temp");
 const UPLOADS_FOLDER = path.resolve(TEMP_FOLDER, "Uploads");
 
 const MULTER = {
