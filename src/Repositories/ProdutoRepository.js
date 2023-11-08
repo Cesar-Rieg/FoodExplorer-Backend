@@ -73,12 +73,29 @@ class ProdutoRepository {
         `, parametrosSql);
     }
 
-    async GetAllProdutosAsync() {
+    async GetAllProdutosAsync(queryWhere) {
         const database = await SqliteConnection();
 
         let parametrosSql = [];
+        let query = this.GetQueryDeSelectPadrao();
+        query += queryWhere
+        query += ` ORDER BY Produto.Nome `;
 
-        return await database.all(`
+        return await database.all(query, parametrosSql);
+    }
+
+    async GetProdutoByIdAsync(id) {
+        const database = await SqliteConnection();
+
+        let parametrosSql = [id];
+        let query = this.GetQueryDeSelectPadrao();
+        query += ` AND Produto.Id = ? `;
+
+        return await database.get(query, parametrosSql);
+    }
+
+    GetQueryDeSelectPadrao() {
+        return `
             SELECT
                 Produto.Id,
                 Produto.Nome,
@@ -87,7 +104,7 @@ class ProdutoRepository {
                 Produto.CategoriaDoProdutoId,
                 CategoriaDoProduto.Nome AS NomeDaCategoria,
                 Produto.ImagemId,
-                Imagem.Url AS UrlDaImagem,
+                Imagem.NomeDoArquivo AS NomeDoArquivoDaImagem,
                 Produto.DataDeCriacao,
                 Produto.UsuarioDeCriacaoId,
                 UsuarioDeCriacao.Nome AS NomeDoUsuarioDeCriacao,
@@ -102,40 +119,7 @@ class ProdutoRepository {
                 LEFT JOIN Usuario AS UsuarioDeAlteracao ON Produto.UsuarioDeAlteracaoId = UsuarioDeAlteracao.Id
             WHERE
                 Produto.Excluido = 0
-        `, parametrosSql);
-    }
-
-    async GetProdutoByIdAsync(id) {
-        const database = await SqliteConnection();
-
-        let parametrosSql = [id];
-
-        return await database.get(`
-            SELECT
-                Produto.Id,
-                Produto.Nome,
-                Produto.Descricao,
-                Produto.Preco,
-                Produto.CategoriaDoProdutoId,
-                CategoriaDoProduto.Nome AS NomeDaCategoria,
-                Produto.ImagemId,
-                Imagem.Url AS UrlDaImagem,
-                Produto.DataDeCriacao,
-                Produto.UsuarioDeCriacaoId,
-                UsuarioDeCriacao.Nome AS NomeDoUsuarioDeCriacao,
-                Produto.DataDeAlteracao,
-                Produto.UsuarioDeAlteracaoId,
-                UsuarioDeAlteracao.Nome AS NomeDoUsuarioDeAlteracao
-            FROM
-                Produto
-                LEFT JOIN CategoriaDoProduto ON Produto.CategoriaDoProdutoId = CategoriaDoProduto.Id
-                LEFT JOIN Imagem ON Produto.ImagemId = Imagem.Id
-                LEFT JOIN Usuario AS UsuarioDeCriacao ON Produto.UsuarioDeCriacaoId = UsuarioDeCriacao.Id
-                LEFT JOIN Usuario AS UsuarioDeAlteracao ON Produto.UsuarioDeAlteracaoId = UsuarioDeAlteracao.Id
-            WHERE
-                Produto.Id = ?
-                AND Produto.Excluido = 0
-        `, parametrosSql);
+        `;
     }
 }
 

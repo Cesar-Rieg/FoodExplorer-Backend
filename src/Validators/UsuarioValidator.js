@@ -1,7 +1,7 @@
 const { compare } = require("bcryptjs");
 const ApiException = require("../Exception/ApiException.js");
 const HttpStatusCode = require("../HttpStatusCode/HttpStatusCode.js");
-const Usuariorepository = require("../Repositories/UsuarioRepository.js");
+const UsuarioRepository = require("../Repositories/UsuarioRepository.js");
 
 class UsuarioValidator {
     async AdicionarUsuarioValidateRequestAsync(usuarioRequestDto) {
@@ -129,7 +129,7 @@ class UsuarioValidator {
     }
 
     async ExistsByEmailAsync(usuarioRequestDto) {
-        let _usuarioRepository = new Usuariorepository();
+        let _usuarioRepository = new UsuarioRepository();
         let usuario = await _usuarioRepository.GetUsuarioByEmailAsync(usuarioRequestDto.Email);
 
         if (!usuario || usuario === null || usuario === undefined) {
@@ -140,7 +140,7 @@ class UsuarioValidator {
     }
 
     async ExistsByIdAsync(usuarioRequestDto) {
-        let _usuarioRepository = new Usuariorepository();
+        let _usuarioRepository = new UsuarioRepository();
         let usuario = await _usuarioRepository.GetUsuarioByIdAsync(usuarioRequestDto.Id);
 
         if (!usuario || usuario === null || usuario === undefined) {
@@ -151,7 +151,7 @@ class UsuarioValidator {
     }
 
     async ExistsByEmailParaOutroUsuarioAsync(usuarioRequestDto) {
-        let _usuarioRepository = new Usuariorepository();
+        let _usuarioRepository = new UsuarioRepository();
         let usuario = await _usuarioRepository.GetUsuarioByEmailAsync(usuarioRequestDto.Email);
 
         if (!usuario || usuario === null || usuario === undefined) { return false; }

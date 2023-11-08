@@ -1,38 +1,33 @@
 const SqliteConnection = require("../Database/Sqlite");
 
 class ProdutoInsumoRepository {
-    async AdicionarProdutoInsumoAsync(produtoInsumoDto) {
+    async AdicionarProdutoInsumoAsync(produtoInsumoParaAdicionarDto) {
         const database = await SqliteConnection();
 
         let parametrosSql = [
-            produtoInsumoDto.Id,
-            produtoInsumoDto.ProdutoId,
-            produtoInsumoDto.Nome, 
-            produtoInsumoDto.DataDeCriacao,
-            produtoInsumoDto.UsuarioDeCriacaoId,
-            produtoInsumoDto.DataDeAlteracao,
-            produtoInsumoDto.UsuarioDeAlteracaoId,
-            produtoInsumoDto.Excluido,
-            produtoInsumoDto.DataDeExclusao,
-            produtoInsumoDto.UsuarioDeExclusaoId
+            produtoInsumoParaAdicionarDto.Id,
+            produtoInsumoParaAdicionarDto.ProdutoId,
+            produtoInsumoParaAdicionarDto.Nome, 
+            produtoInsumoParaAdicionarDto.DataDeCriacao,
+            produtoInsumoParaAdicionarDto.UsuarioDeCriacaoId
         ];
 
         return await database.run(`
             INSERT INTO ProdutoInsumo
-                (Id, ProdutoId, Nome, DataDeCriacao, UsuarioDeCriacaoId, DataDeAlteracao, UsuarioDeAlteracaoId, Excluido, DataDeExclusao, UsuarioDeExclusaoId)
+                (Id, ProdutoId, Nome, DataDeCriacao, UsuarioDeCriacaoId)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?)
         `, parametrosSql);
     }
 
-    async DeletarProdutoInsumoByProdutoIdAsync(produtoInsumoDto) {
+    async DeletarProdutoInsumoDoProdutoAsync(produtoInsumoParaDeletarDto) {
         const database = await SqliteConnection();
 
         let parametrosSql = [
-            produtoInsumoDto.Excluido,
-            produtoInsumoDto.DataDeExclusao,
-            produtoInsumoDto.UsuarioDeExclusaoId,
-            produtoInsumoDto.ProdutoId
+            produtoInsumoParaDeletarDto.Excluido,
+            produtoInsumoParaDeletarDto.DataDeExclusao,
+            produtoInsumoParaDeletarDto.UsuarioDeExclusaoId,
+            produtoInsumoParaDeletarDto.ProdutoId
         ];
 
         return await database.run(`
@@ -44,6 +39,24 @@ class ProdutoInsumoRepository {
                 ProdutoId = ?
                 AND Excluido = 0
         `, parametrosSql);
+    }
+
+    async GetAllProdutosInsumosAsync(queryWhere) {
+        const database = await SqliteConnection();
+
+        return await database.get(`
+            SELECT 
+                Id,
+                ProdutoId,
+                Nome,
+                DataDeCriacao, 
+                DataDeAlteracao
+            FROM 
+                ProdutoInsumo
+            WHERE
+                Excluido = 0
+                ${queryWhere}
+        `, []);
     }
 
     async GetProdutoInsumoByProdutoIdAsync(produtoId) {
