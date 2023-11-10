@@ -17,8 +17,8 @@ class ProdutoInsumoService {
                 Id: _guidExtensions.NewGuid(),
                 ProdutoId: produtoInsumosDto.ProdutoId,
                 Nome: insumo, 
-                DataDeCriacao: _dateTimeExtensions.DateTimeNow(),
-                UsuarioDeCriacaoId: produtoInsumosDto.UsuarioId
+                DataDeCadastro: _dateTimeExtensions.DateTimeNow(),
+                UsuarioDeCadastroId: produtoInsumosDto.UsuarioId
             };
             let produtoInsumoRequestDto = Object.assign(produtoInsumoParaAdicionarDto);
             await _produtoInsumoValidator.AdicionarProdutoInsumoValidateRequestAsync(produtoInsumoRequestDto)
@@ -50,6 +50,8 @@ class ProdutoInsumoService {
         
         if (!queryWhere || queryWhere === null || queryWhere === undefined) 
             queryWhere = "";
+
+        console.log("ProdutoInsumoService => queryWhere: ", queryWhere);
 
         return await _produtoInsumoRepository.GetAllProdutosInsumosAsync(queryWhere);
     }

@@ -11,13 +11,13 @@ class ProdutoRepository {
             produtoDto.Preco,
             produtoDto.CategoriaDoProdutoId,
             produtoDto.ImagemId,
-            produtoDto.DataDeCriacao,
-            produtoDto.UsuarioDeCriacaoId
+            produtoDto.DataDeCadastro,
+            produtoDto.UsuarioDeCadastroId
         ];
 
         return await database.run(`
             INSERT INTO Produto
-                (Id, Nome, Descricao, Preco, CategoriaDoProdutoId, ImagemId, DataDeCriacao, UsuarioDeCriacaoId)
+                (Id, Nome, Descricao, Preco, CategoriaDoProdutoId, ImagemId, DataDeCadastro, UsuarioDeCadastroId)
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?)
         `, parametrosSql);
@@ -105,9 +105,9 @@ class ProdutoRepository {
                 CategoriaDoProduto.Nome AS NomeDaCategoria,
                 Produto.ImagemId,
                 Imagem.NomeDoArquivo AS NomeDoArquivoDaImagem,
-                Produto.DataDeCriacao,
-                Produto.UsuarioDeCriacaoId,
-                UsuarioDeCriacao.Nome AS NomeDoUsuarioDeCriacao,
+                Produto.DataDeCadastro,
+                Produto.UsuarioDeCadastroId,
+                UsuarioDeCadastro.Nome AS NomeDoUsuarioDeCadastro,
                 Produto.DataDeAlteracao,
                 Produto.UsuarioDeAlteracaoId,
                 UsuarioDeAlteracao.Nome AS NomeDoUsuarioDeAlteracao
@@ -115,7 +115,7 @@ class ProdutoRepository {
                 Produto
                 LEFT JOIN CategoriaDoProduto ON Produto.CategoriaDoProdutoId = CategoriaDoProduto.Id
                 LEFT JOIN Imagem ON Produto.ImagemId = Imagem.Id
-                LEFT JOIN Usuario AS UsuarioDeCriacao ON Produto.UsuarioDeCriacaoId = UsuarioDeCriacao.Id
+                LEFT JOIN Usuario AS UsuarioDeCadastro ON Produto.UsuarioDeCadastroId = UsuarioDeCadastro.Id
                 LEFT JOIN Usuario AS UsuarioDeAlteracao ON Produto.UsuarioDeAlteracaoId = UsuarioDeAlteracao.Id
             WHERE
                 Produto.Excluido = 0

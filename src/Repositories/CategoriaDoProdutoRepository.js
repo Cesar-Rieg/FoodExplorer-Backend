@@ -8,13 +8,13 @@ class CategoriaDoProdutoRepository {
             SELECT 
                 Id,
                 Nome,
-                DataDeCriacao, 
+                DataDeCadastro, 
                 DataDeAlteracao
             FROM 
                 CategoriaDoProduto
             WHERE
-                Discriminator = (?)
-                AND Excluido = 0
+                Excluido = 0
+                AND Discriminator = (?)
         `, [discriminator]);
     }
 }

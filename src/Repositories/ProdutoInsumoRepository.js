@@ -8,13 +8,13 @@ class ProdutoInsumoRepository {
             produtoInsumoParaAdicionarDto.Id,
             produtoInsumoParaAdicionarDto.ProdutoId,
             produtoInsumoParaAdicionarDto.Nome, 
-            produtoInsumoParaAdicionarDto.DataDeCriacao,
-            produtoInsumoParaAdicionarDto.UsuarioDeCriacaoId
+            produtoInsumoParaAdicionarDto.DataDeCadastro,
+            produtoInsumoParaAdicionarDto.UsuarioDeCadastroId
         ];
 
         return await database.run(`
             INSERT INTO ProdutoInsumo
-                (Id, ProdutoId, Nome, DataDeCriacao, UsuarioDeCriacaoId)
+                (Id, ProdutoId, Nome, DataDeCadastro, UsuarioDeCadastroId)
             VALUES
                 (?, ?, ?, ?, ?)
         `, parametrosSql);
@@ -44,37 +44,42 @@ class ProdutoInsumoRepository {
     async GetAllProdutosInsumosAsync(queryWhere) {
         const database = await SqliteConnection();
 
-        return await database.get(`
-            SELECT 
-                Id,
-                ProdutoId,
-                Nome,
-                DataDeCriacao, 
-                DataDeAlteracao
-            FROM 
-                ProdutoInsumo
-            WHERE
-                Excluido = 0
-                ${queryWhere}
-        `, []);
+        let parametrosSql = [];
+        let query = this.GetQueryDeSelectPadrao();
+        query += queryWhere;
+        
+        return await database.all(query, parametrosSql);
     }
 
     async GetProdutoInsumoByProdutoIdAsync(produtoId) {
         const database = await SqliteConnection();
 
-        return await database.get(`
+        let parametrosSql = [produtoId];
+        let query = this.GetQueryDeSelectPadrao();
+        query += " AND ProdutoInsumo.ProdutoId = (?) ";
+
+        return await database.all(query, parametrosSql);
+    }
+
+    GetQueryDeSelectPadrao() {
+        return `
             SELECT 
-                Id,
-                ProdutoId,
-                Nome,
-                DataDeCriacao, 
-                DataDeAlteracao
+                ProdutoInsumo.Id,
+                ProdutoInsumo.ProdutoId,
+                ProdutoInsumo.Nome,
+                ProdutoInsumo.DataDeCadastro,
+                ProdutoInsumo.UsuarioDeCadastroId,
+                UsuarioDeCadastro.Nome AS NomeDoUsuarioDeCadastro,
+                ProdutoInsumo.DataDeAlteracao,
+                ProdutoInsumo.UsuarioDeAlteracaoId,
+                UsuarioDeAlteracao.Nome AS NomeDoUsuarioDeAlteracao
             FROM 
                 ProdutoInsumo
+                LEFT JOIN Usuario AS UsuarioDeCadastro ON ProdutoInsumo.UsuarioDeCadastroId = UsuarioDeCadastro.Id
+                LEFT JOIN Usuario AS UsuarioDeAlteracao ON ProdutoInsumo.UsuarioDeAlteracaoId = UsuarioDeAlteracao.Id
             WHERE
-                ProdutoId = (?)
-                AND Excluido = 0
-        `, [produtoId]);
+                ProdutoInsumo.Excluido = 0
+        `;
     }
 }
 

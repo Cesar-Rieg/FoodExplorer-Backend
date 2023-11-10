@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     Senha VARCHAR(160),
     ImagemId VARCHAR(36) NULL,
     PerfilDeUsuarioId VARCHAR(36) NOT NULL,
-    DataDeCriacao TIMESTAMP, 
+    DataDeCadastro TIMESTAMP, 
     DataDeAlteracao TIMESTAMP NULL,
     Excluido BIT DEFAULT 0,
     DataDeExclusao TIMESTAMP NULL,

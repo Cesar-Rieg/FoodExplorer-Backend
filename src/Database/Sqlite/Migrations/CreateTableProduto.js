@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS Produto (
     Preco DECIMAL(10, 2),
     CategoriaDoProdutoId VARCHAR(36) NOT NULL,
     ImagemId VARCHAR(36) NOT NULL,
-    DataDeCriacao TIMESTAMP, 
-    UsuarioDeCriacaoId VARCHAR(36) NOT NULL,
+    DataDeCadastro TIMESTAMP, 
+    UsuarioDeCadastroId VARCHAR(36) NOT NULL,
     DataDeAlteracao TIMESTAMP NULL,
     UsuarioDeAlteracaoId VARCHAR(36) NULL,
     Excluido BIT DEFAULT 0,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Produto (
 
     FOREIGN KEY (CategoriaDoProdutoId) REFERENCES CategoriaDoProduto(Id),
     FOREIGN KEY (ImagemId) REFERENCES Imagem(Id),
-    FOREIGN KEY (UsuarioDeCriacaoId) REFERENCES Usuario(Id),
+    FOREIGN KEY (UsuarioDeCadastroId) REFERENCES Usuario(Id),
     FOREIGN KEY (UsuarioDeAlteracaoId) REFERENCES Usuario(Id),
     FOREIGN KEY (UsuarioDeExclusaoId) REFERENCES Usuario(Id)
 );

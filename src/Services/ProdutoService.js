@@ -9,7 +9,7 @@ const ProdutoValidator = require("../Validators/ProdutoValidator.js");
 const GuidExtensions = require("../Extensions/GuidExtensions.js");
 
 class ProdutoService {
-    // Parametro produtoRequestDto contendo as propriedades "Nome", "Descricao", "Categoria", "Imagem", "Preco", "UsuarioDeCriacaoId" e um Array "Ingredientes"
+    // Parametro produtoRequestDto contendo as propriedades "Nome", "Descricao", "Categoria", "Imagem", "Preco", "UsuarioDeCadastroId" e um Array "Ingredientes"
     async AdicionarProdutoAsync(produtoRequestDto) {
         let _categoriaDoProdutoService = new CategoriaDoProdutoService();
         let _dateTimeExtensions = new DateTimeExtensions();
@@ -30,13 +30,13 @@ class ProdutoService {
             Preco: produtoRequestDto.Preco,
             CategoriaDoProdutoId: categoriaDoProdutoId,
             ImagemId: imagemId,
-            DataDeCriacao: _dateTimeExtensions.DateTimeNow(),
-            UsuarioDeCriacaoId: produtoRequestDto.UsuarioDeCriacaoId,
+            DataDeCadastro: _dateTimeExtensions.DateTimeNow(),
+            UsuarioDeCadastroId: produtoRequestDto.UsuarioDeCadastroId,
             
         };
         let produtoInsumosDto = {
             ProdutoId: produtoDto.Id,
-            UsuarioId: produtoDto.UsuarioDeCriacaoId,
+            UsuarioId: produtoDto.UsuarioDeCadastroId,
             Ingredientes: produtoRequestDto.Ingredientes
         }
 
@@ -72,12 +72,14 @@ class ProdutoService {
         let produtosInsumos;
 
         if (busca && busca !== null && busca !== undefined) {
+            console.log("Entrou no if");
+            console.log("ProdutoService => Busca: ", busca);
             let filtros = busca.split(" "); 
             let queryWhereProdutoInsumos = "";
             let queryWhereProdutos = "";
 
             filtros.forEach(filtro => {
-                queryWhereProdutoInsumos += ` OR ( Nome LIKE '%${filtro}%' ) `;
+                queryWhereProdutoInsumos += ` OR ( ProdutoInsumo.Nome LIKE '%${filtro}%' ) `;
                 queryWhereProdutos += ` OR (
                                                Produto.Nome LIKE '%${filtro}%'
                                                OR 
@@ -85,12 +87,17 @@ class ProdutoService {
                                            ) `;
             });
 
-            produtos = await _produtoRepository.GetAllProdutosAsync(queryWhere);
+            produtos = await _produtoRepository.GetAllProdutosAsync(queryWhereProdutos);
+            console.log("ProdutoService => produtos: ", produtos);
             produtosInsumos = await _produtoInsumoService.GetAllProdutosInsumosAsync(queryWhereProdutoInsumos);
+            console.log("ProdutoService => produtosInsumos: ", produtosInsumos);
         }
         else {
+            console.log("Entrou no else");
             produtos = await _produtoRepository.GetAllProdutosAsync("");
+            console.log("ProdutoService => produtos: ", produtos);
             produtosInsumos = await _produtoInsumoService.GetAllProdutosInsumosAsync("");
+            console.log("ProdutoService => produtosInsumos: ", produtosInsumos);
         }
 
         let produtoResponse = produtos.map((produto) => {

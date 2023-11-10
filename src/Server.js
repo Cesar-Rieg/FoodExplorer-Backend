@@ -1,14 +1,17 @@
 require("express-async-errors");
 require("dotenv/config");
 
+
 // Configurações do ambiente
 const cors = require("cors");
 const express = require("express");
 const routes = require("./Routes/index.js");
+const UploadDeImagemConfig = require("./Configurations/UploadDeImagem.js");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/files", express.static(UploadDeImagemConfig.UPLOADS_FOLDER));
 app.use(routes);
 
 

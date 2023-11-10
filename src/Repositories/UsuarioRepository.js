@@ -12,12 +12,12 @@ class UsuarioRepository {
             usuarioDto.Email,
             usuarioDto.Senha,
             usuarioDto.PerfilDeUsuarioId,
-            usuarioDto.DataDeCriacao
+            usuarioDto.DataDeCadastro
         ];
 
         return await database.run(`
             INSERT INTO Usuario
-                (Id, Nome, Email, Senha, PerfilDeUsuarioId, DataDeCriacao)
+                (Id, Nome, Email, Senha, PerfilDeUsuarioId, DataDeCadastro)
             VALUES
                 (?, ?, ?, ?, ?, ?);
         `, parametrosSql);
@@ -86,7 +86,7 @@ class UsuarioRepository {
                 Usuario.PerfilDeUsuarioId,
                 PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
                 (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
-                Usuario.DataDeCriacao,
+                Usuario.DataDeCadastro,
                 Usuario.DataDeAlteracao
             FROM 
                 Usuario
@@ -117,7 +117,7 @@ class UsuarioRepository {
                 Usuario.PerfilDeUsuarioId,
                 PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
                 (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
-                Usuario.DataDeCriacao,
+                Usuario.DataDeCadastro,
                 Usuario.DataDeAlteracao
             FROM 
                 Usuario

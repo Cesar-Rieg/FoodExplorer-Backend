@@ -1,4 +1,5 @@
 const ProdutoService = require("../Services/ProdutoService.js");
+const HttpStatusCode = require("../HttpStatusCode/HttpStatusCode.js");
 
 class ProdutoController {
     async AdicionarProdutoAsync(request, response) {
@@ -23,13 +24,21 @@ class ProdutoController {
         return response.json(); 
     }
 
+    async GetProdutoByIdAsync(request, response) {
+        let _produtoService = new ProdutoService();
+        let { id } = request.params;
+        let produtoRequestDto = { Id: id };
+        let produto = await _produtoService.GetProdutoByIdAsync(produtoRequestDto);
+        
+        return response.status(HttpStatusCode.Ok).json(produto); 
+    }
+
     async ListagemDeProdutos(request, response) {
         let _produtoService = new ProdutoService();
         let { busca } = request.query;
-
         let produtos = await _produtoService.GetAllProdutosAsync(busca);
 
-        return response.status(200).json(produtos);
+        return response.status(HttpStatusCode.Ok).json(produtos); 
     }
 
     

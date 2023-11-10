@@ -24,7 +24,7 @@ class UsuarioService {
             Email: usuarioRequestDto.Email,
             Senha: await this.GeneratePasswordHash(usuarioRequestDto.Senha),
             PerfilDeUsuarioId: perfilDeUsuarioClienteId,
-            DataDeCriacao: _dateTimeExtensions.DateTimeNow()
+            DataDeCadastro: _dateTimeExtensions.DateTimeNow()
         };
 
         return await _usuarioRepository.AdicionarUsuarioAsync(usuarioDto);
