@@ -1,7 +1,7 @@
 const SqliteConnection = require("../Database/Sqlite");
 
 class CategoriaDoProdutoRepository {
-    async GetCategoriaDoProdutoByDiscriminatorAsync(discriminator) {
+    async GetCategoriaDoProdutoByNomeAsync(discriminator) {
         const database = await SqliteConnection();
 
         return await database.get(`
@@ -14,7 +14,7 @@ class CategoriaDoProdutoRepository {
                 CategoriaDoProduto
             WHERE
                 Excluido = 0
-                AND Discriminator = (?)
+                AND Nome = (?)
         `, [discriminator]);
     }
 }

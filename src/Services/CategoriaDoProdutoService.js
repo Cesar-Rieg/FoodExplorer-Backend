@@ -2,12 +2,12 @@ const CategoriaDoProdutoRepository = require("../Repositories/CategoriaDoProduto
 const CategoriaDoProdutoValidator = require("../Validators/CategoriaDoProdutoValidator.js");
 
 class CategoriaDoProdutoService {
-    async GetCategoriaDoProdutoByDiscriminatorAsync(discriminator) {
+    async GetCategoriaDoProdutoByNomeAsync(discriminator) {
         let _categoriaDoProdutoRepository = new CategoriaDoProdutoRepository();
         let _categoriaDoProdutoValidator = new CategoriaDoProdutoValidator();
 
-        let categoriaDoProduto = await _categoriaDoProdutoRepository.GetCategoriaDoProdutoByDiscriminatorAsync(discriminator);
-        await _categoriaDoProdutoValidator.GetCategoriaDoProdutoByDiscriminatorValidateResponseAsync(categoriaDoProduto);
+        let categoriaDoProduto = await _categoriaDoProdutoRepository.GetCategoriaDoProdutoByNomeAsync(discriminator);
+        await _categoriaDoProdutoValidator.GetCategoriaDoProdutoByNomeValidateResponseAsync(categoriaDoProduto);
 
         return categoriaDoProduto;
     }

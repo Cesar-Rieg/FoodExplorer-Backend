@@ -4,6 +4,7 @@ const ProdutoInsumoRepository = require("../Repositories/ProdutoInsumoRepository
 const ProdutoInsumoValidator = require("../Validators/ProdutoInsumoValidator.js");
 
 class ProdutoInsumoService {
+    // Parametro produtoInsumoDto contendo as propriedades "ProdutoId", "UsuarioId" e um Array de string "Ingredientes"
     async AdicionarProdutoInsumoAsync(produtoInsumosDto) {
         let _dateTimeExtensions = new DateTimeExtensions();
         let _guidExtensions = new GuidExtensions();
@@ -24,8 +25,6 @@ class ProdutoInsumoService {
             await _produtoInsumoValidator.AdicionarProdutoInsumoValidateRequestAsync(produtoInsumoRequestDto)
             await _produtoInsumoRepository.AdicionarProdutoInsumoAsync(produtoInsumoParaAdicionarDto);
         });
-
-        return await this.GetProdutoInsumoByProdutoIdAsync(produtoId);
     }
 
     async DeletarProdutoInsumoDoProdutoAsync(produtoId, usuarioDeExclusaoId) {
@@ -50,8 +49,6 @@ class ProdutoInsumoService {
         
         if (!queryWhere || queryWhere === null || queryWhere === undefined) 
             queryWhere = "";
-
-        console.log("ProdutoInsumoService => queryWhere: ", queryWhere);
 
         return await _produtoInsumoRepository.GetAllProdutosInsumosAsync(queryWhere);
     }

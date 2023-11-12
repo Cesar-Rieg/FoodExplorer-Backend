@@ -7,8 +7,8 @@ class ProdutoController {
         
         let { nome, descricao, categoria, preco, ingredientes } = request.body;
         let arrayDeIngredientes = JSON.parse(ingredientes || '[]');
-        let imagem = request.file.nomeDoArquivo;
-        let usuarioId = request.usuario.id;
+        let imagem = request.file.filename;
+        let usuarioId =  request.usuario.id;
 
         let produtoRequestDto = {
             Nome: nome,
@@ -16,7 +16,7 @@ class ProdutoController {
             Categoria: categoria,
             Imagem: imagem,
             Preco: preco,
-            UsuarioDeCriacaoId: usuarioId,
+            UsuarioDeCadastroId: usuarioId,
             Ingredientes: arrayDeIngredientes
         };
 

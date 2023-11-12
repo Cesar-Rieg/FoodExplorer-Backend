@@ -23,7 +23,7 @@ class ImagemValidator {
 
     async ApplyRulesToNomeDoArquivoAsync(imagemDto) {
         if (imagemDto.NomeDoArquivo === null || imagemDto.NomeDoArquivo?.trim() === "" || imagemDto.NomeDoArquivo === undefined) {
-            throw new ApiException("O discriminator da imagem é obrigatório.", HttpStatusCode.BadRequest);
+            throw new ApiException("O nome da imagem é obrigatório.", HttpStatusCode.BadRequest);
         }
        
         return true;

@@ -6,7 +6,7 @@ class ProdutoInsumoValidator {
         await this.ApplyRulesToProdutoInsumoRequestDto(produtoInsumoRequestDto);
         await this.ApplyRulesToProdutoIdAsync(produtoInsumoRequestDto);
         await this.ApplyRulesToNomeAsync(produtoInsumoRequestDto);
-        await this.ApplyRulesToUsuarioDeCriacaoAsync(produtoInsumoRequestDto);
+        await this.ApplyRulesToUsuarioDeCadastroAsync(produtoInsumoRequestDto);
     }
 
     async DeletarProdutoInsumoValidateRequestAsync(produtoInsumoRequestDto) {
@@ -42,13 +42,13 @@ class ProdutoInsumoValidator {
         return true;
     }
 
-    async ApplyRulesToUsuarioDeCriacaoAsync(produtoInsumoRequestDto) {
-        if (produtoInsumoRequestDto.UsuarioDeCriacaoId === null || produtoInsumoRequestDto.UsuarioDeCriacaoId === undefined) {
-            throw new ApiException("O Id do usuário de criação é obrigatório e não pode ser nulo.", HttpStatusCode.BadRequest);
+    async ApplyRulesToUsuarioDeCadastroAsync(produtoInsumoRequestDto) {
+        if (produtoInsumoRequestDto.UsuarioDeCadastroId === null || produtoInsumoRequestDto.UsuarioDeCadastroId === undefined) {
+            throw new ApiException("O Id do usuário de cadastro é obrigatório e não pode ser nulo.", HttpStatusCode.BadRequest);
         }
 
-        if (produtoInsumoRequestDto.UsuarioDeCriacaoId.length != 36) {
-            throw new ApiException("O Id do usuário de criação não está no formato correto.", HttpStatusCode.BadRequest);
+        if (produtoInsumoRequestDto.UsuarioDeCadastroId.length != 36) {
+            throw new ApiException("O Id do usuário de cadastro não está no formato correto.", HttpStatusCode.BadRequest);
         }
 
         return true;
