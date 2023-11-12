@@ -36,8 +36,8 @@ class ProdutoInsumoRepository {
                 DataDeExclusao = ?, 
                 UsuarioDeExclusaoId = ?
             WHERE
-                ProdutoId = ?
-                AND Excluido = 0
+                Excluido = 0
+                AND ProdutoId = ?
         `, parametrosSql);
     }
 

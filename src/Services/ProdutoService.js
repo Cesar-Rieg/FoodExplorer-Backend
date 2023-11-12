@@ -44,22 +44,23 @@ class ProdutoService {
         await _produtoInsumoService.AdicionarProdutoInsumoAsync(produtoInsumosDto);
     }
 
-    // Parametro produtoId = string
-    // Parametro usuarioId = string
-    async DeletarProdutoAsync(produtoId, usuarioId) {
+    // Parametro produtoRequestDto contendo as propriedades "Id" do produto, e "UsuarioDeExclusaoId"
+    async DeletarProdutoAsync(produtoRequestDto) {
+        let _dateTimeExtensions = new DateTimeExtensions();
+        let _produtoInsumoService = new ProdutoInsumoService();
         let _produtoRepository = new ProdutoRepository(); 
         let _produtoValidator = new ProdutoValidator();
-        let _dateTimeExtensions = new DateTimeExtensions();
-
-        let produtoRequestDto = {
-            Id: produtoId,
-            Excluido: true,
-            DataDeExclusao: _dateTimeExtensions.GetDateTime(),
-            UsuarioDeExclusaoId: usuarioId,
-        };
-        let produtoDto = Object.assign(produtoRequestDto);
 
         await _produtoValidator.DeletarProdutoValidateRequestAsync(produtoRequestDto);
+
+        let produtoDto = {
+            Id: produtoRequestDto.Id,
+            Excluido: true,
+            DataDeExclusao: _dateTimeExtensions.DateTimeNow(),
+            UsuarioDeExclusaoId: produtoRequestDto.UsuarioDeExclusaoId,
+        }
+
+        await _produtoInsumoService.DeletarProdutoInsumoDoProdutoAsync(produtoDto.Id, produtoDto.UsuarioDeExclusaoId);
         return await _produtoRepository.DeletarProdutoAsync(produtoDto);
     }
 

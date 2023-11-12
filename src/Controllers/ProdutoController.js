@@ -24,6 +24,20 @@ class ProdutoController {
         return response.json(); 
     }
 
+    async DeletarProdutoAsync(request, response) {
+        let _produtoService = new ProdutoService();
+        let { id } = request.params;
+        let usuarioId = request.usuario.id;
+
+        let produtoRequestDto = {
+            Id: id,
+            UsuarioDeExclusaoId: usuarioId,
+        };
+
+        await _produtoService.DeletarProdutoAsync(produtoRequestDto);
+        return response.status(HttpStatusCode.Ok).json({});
+    }
+
     async GetProdutoByIdAsync(request, response) {
         let _produtoService = new ProdutoService();
         let { id } = request.params;
