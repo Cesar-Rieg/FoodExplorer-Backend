@@ -9,6 +9,11 @@ class ImagemValidator {
         await this.ApplyRulesToNomeDoArquivoAsync(imagemDto);
     }
 
+    async DeletarImagemValidateRequestAsync(imagemDto) {
+        await this.ApplyRulesToIdAsync(imagemDto);
+        await this.ApplyRulesToNomeDoArquivoAsync(imagemDto);
+    }
+
     async ApplyRulesToDiscriminatorAsync(imagemDto) {
         if (imagemDto.Discriminator === null || imagemDto.Discriminator?.trim() === "" || imagemDto.Discriminator === undefined) {
             throw new ApiException("O discriminator da imagem é obrigatório.", HttpStatusCode.BadRequest);

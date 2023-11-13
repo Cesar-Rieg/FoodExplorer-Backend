@@ -21,8 +21,15 @@ class ProdutoService {
 
         await _produtoValidator.AdicionarProdutoValidateRequestAsync(produtoRequestDto);
 
-        let imagemId = await _imagemService.AdicionarImagemAsync(produtoRequestDto.Imagem, ImagemConstants.ImagemDoProduto);
+        let imagemRequestDto = {
+            Discriminator: ImagemConstants.ImagemDoProduto,
+            NomeDoArquivo: produtoRequestDto.Imagem,
+            UsuarioDeCadastroId: produtoRequestDto.UsuarioDeCadastroId
+        };
+        let imagemId = await _imagemService.AdicionarImagemAsync(imagemRequestDto);
+        
         let categoriaDoProduto = await _categoriaDoProdutoService.GetCategoriaDoProdutoByNomeAsync(produtoRequestDto.Categoria);
+        
         let produtoDto = {
             Id: _guidExtensions.NewGuid(),
             Nome: produtoRequestDto.Nome,
@@ -32,7 +39,6 @@ class ProdutoService {
             ImagemId: imagemId,
             DataDeCadastro: _dateTimeExtensions.DateTimeNow(),
             UsuarioDeCadastroId: produtoRequestDto.UsuarioDeCadastroId,
-            
         };
         let produtoInsumosDto = {
             ProdutoId: produtoDto.Id,
@@ -41,6 +47,50 @@ class ProdutoService {
         }
 
         await _produtoRepository.AdicionarProdutoAsync(produtoDto);
+        await _produtoInsumoService.AdicionarProdutoInsumoAsync(produtoInsumosDto);
+    }
+
+    async AlterarProdutoAsync(produtoRequestDto) {
+        let _categoriaDoProdutoService = new CategoriaDoProdutoService();
+        let _dateTimeExtensions = new DateTimeExtensions();
+        let _imagemService = new ImagemService();
+        let _produtoInsumoService = new ProdutoInsumoService();
+        let _produtoRepository = new ProdutoRepository(); 
+        let _produtoValidator = new ProdutoValidator();
+
+        await _produtoValidator.AlterarProdutoValidateRequestAsync(produtoRequestDto);
+        let produto = await _produtoRepository.GetProdutoByIdAsync(produtoRequestDto.Id);
+        let imagemId = produto.ImagemId;
+
+        if (produtoRequestDto.AlterouAImagem) {
+            console.log("AlterouAImagem")
+            let imagemRequestDto = {
+                Id: produto.ImagemId,
+                NomeDoArquivo: produto.NomeDoArquivoDaImagem,
+                UsuarioDeAlteracaoId: produtoRequestDto.UsuarioDeAlteracaoId
+            };
+            await _imagemService.DeletarImagemAsync(imagemRequestDto);
+            imagemId = await _imagemService.AdicionarImagemAsync(produtoRequestDto.Imagem, ImagemConstants.ImagemDoProduto);
+        }
+
+        let categoriaDoProduto = await _categoriaDoProdutoService.GetCategoriaDoProdutoByNomeAsync(produtoRequestDto.Categoria);
+        let produtoDto = {
+            Id: produtoRequestDto.Id,
+            Nome: produtoRequestDto.Nome ?? produto.Nome,
+            Descricao: produtoRequestDto.Descricao ?? produto.Descricao,
+            Preco: produtoRequestDto.Preco ?? produto.Preco,
+            CategoriaDoProdutoId: categoriaDoProduto.Id,
+            ImagemId: imagemId,
+            DataDeAlteracao: _dateTimeExtensions.DateTimeNow(),
+            UsuarioDeAlteracaoId: produtoRequestDto.UsuarioDeAlteracaoId,
+        };
+        let produtoInsumosDto = {
+            ProdutoId: produtoDto.Id,
+            UsuarioId: produtoDto.UsuarioDeAlteracaoId,
+            Ingredientes: produtoRequestDto.Ingredientes
+        }
+
+        await _produtoRepository.AlterarProdutoAsync(produtoDto);
         await _produtoInsumoService.AdicionarProdutoInsumoAsync(produtoInsumosDto);
     }
 

@@ -13,6 +13,17 @@ class ProdutoValidator {
         await this.ApplyRulesToIngredientesAsync(produtoRequestDto);
     }
 
+    async AlterarProdutoValidateRequestAsync(produtoRequestDto) {
+        await this.ApplyRulesToProdutoRequestDto(produtoRequestDto);
+        await this.ApplyRulesToNomeAsync(produtoRequestDto);
+        await this.ApplyRulesToDescricaoAsync(produtoRequestDto);
+        await this.ApplyRulesToCategoriaAsync(produtoRequestDto);
+        await this.ApplyRulesToImagemAsync(produtoRequestDto);
+        await this.ApplyRulesToPrecoAsync(produtoRequestDto);
+        await this.ApplyRulesToIngredientesAsync(produtoRequestDto);
+        await this.ExistsByIdAsync(produtoRequestDto);
+    }
+
     async GetProdutoByIdValidateRequestAsync(produtoRequestDto) {
         await this.ApplyRulesToIdAsync(produtoRequestDto);
         await this.ExistsByIdAsync(produtoRequestDto);

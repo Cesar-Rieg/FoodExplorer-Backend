@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS ProdutoInsumo (
     UsuarioDeAlteracaoId VARCHAR(36) NULL,
     Excluido BIT DEFAULT 0,
     DataDeExclusao TIMESTAMP NULL,
-    UsuarioDeExclusaoId VARCJAR(36) NULL,
+    UsuarioDeExclusaoId VARCHAR(36) NULL,
 
     FOREIGN KEY (ProdutoId) REFERENCES Produto(Id),
     FOREIGN KEY (UsuarioDeCadastroId) REFERENCES Usuario(Id),

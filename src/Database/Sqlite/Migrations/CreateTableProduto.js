@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Produto (
     UsuarioDeAlteracaoId VARCHAR(36) NULL,
     Excluido BIT DEFAULT 0,
     DataDeExclusao TIMESTAMP NULL,
-    UsuarioDeExclusaoId VARCJAR(36) NULL,
+    UsuarioDeExclusaoId VARCHAR(36) NULL,
 
     FOREIGN KEY (CategoriaDoProdutoId) REFERENCES CategoriaDoProduto(Id),
     FOREIGN KEY (ImagemId) REFERENCES Imagem(Id),

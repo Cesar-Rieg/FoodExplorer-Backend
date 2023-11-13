@@ -47,8 +47,8 @@ class ProdutoRepository {
                 DataDeAlteracao = ?, 
                 UsuarioDeAlteracaoId = ?
             WHERE
-                Id = ?
-                AND Excluido = 0
+                Excluido = 0
+                AND Id = ?
         `, parametrosSql);
     }
 

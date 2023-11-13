@@ -14,6 +14,7 @@ produtoRoutes.use(usuarioAutenticado);
 produtoRoutes.get('/', _produtoController.ListagemDeProdutos);
 produtoRoutes.get('/:id', _produtoController.GetProdutoByIdAsync);
 produtoRoutes.post('/', _uploadDeImagem.single("imagem"), _produtoController.AdicionarProdutoAsync);
+produtoRoutes.put('/:id', _uploadDeImagem.single("imagem"), _produtoController.AlterarProdutoAsync);
 produtoRoutes.delete('/:id', _produtoController.DeletarProdutoAsync);
 
 module.exports = produtoRoutes;
