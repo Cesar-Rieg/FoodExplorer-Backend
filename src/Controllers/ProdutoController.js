@@ -30,7 +30,7 @@ class ProdutoController {
         let { nome, descricao, categoria, preco, ingredientes, imagemAtual } = request.body;
         let arrayDeIngredientes = JSON.parse(ingredientes || '[]');
         let imagem = request.file?.filename;
-        let alterouAImagem = (imagem && (imagem !== null || imagem !== undefined));
+        let alterouAImagem = (imagem && (imagem !== null || imagem !== undefined)) ?? false;
         let usuarioId =  request.usuario.id;
 
         let produtoRequestDto = {
@@ -39,8 +39,7 @@ class ProdutoController {
             Descricao: descricao,
             Categoria: categoria,
             AlterouAImagem: alterouAImagem,
-            Imagem: imagem ?? imagemAtual,
-            ImagemAtual: imagemAtual,
+            Imagem: alterouAImagem ? imagem : imagemAtual,
             Preco: preco,
             UsuarioDeAlteracaoId: usuarioId,
             Ingredientes: arrayDeIngredientes

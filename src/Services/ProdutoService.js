@@ -63,13 +63,19 @@ class ProdutoService {
         let imagemId = produto.ImagemId;
 
         if (produtoRequestDto.AlterouAImagem) {
-            let imagemRequestDto = {
+            let imagemParaAdicionarRequestDto = {
+                Discriminator: ImagemConstants.ImagemDoProduto,
+                NomeDoArquivo: produtoRequestDto.Imagem,
+                UsuarioDeCadastroId: produtoRequestDto.UsuarioDeAlteracaoId
+            };
+            imagemId = await _imagemService.AdicionarImagemAsync(imagemParaAdicionarRequestDto);
+
+            let imagemParaDeletarRequestoDto = {
                 Id: produto.ImagemId,
                 NomeDoArquivo: produto.NomeDoArquivoDaImagem,
                 UsuarioDeAlteracaoId: produtoRequestDto.UsuarioDeAlteracaoId
             };
-            await _imagemService.DeletarImagemAsync(imagemRequestDto);
-            imagemId = await _imagemService.AdicionarImagemAsync(produtoRequestDto.Imagem, ImagemConstants.ImagemDoProduto);
+            await _imagemService.DeletarImagemAsync(imagemParaDeletarRequestoDto);
         }
 
         let categoriaDoProduto = await _categoriaDoProdutoService.GetCategoriaDoProdutoByNomeAsync(produtoRequestDto.Categoria);
