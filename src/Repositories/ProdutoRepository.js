@@ -68,8 +68,8 @@ class ProdutoRepository {
                 DataDeExclusao = ?, 
                 UsuarioDeExclusaoId = ?
             WHERE
-                Id = ?
-                AND Excluido = 0
+                Excluido = 0
+                AND Id = ?
         `, parametrosSql);
     }
 

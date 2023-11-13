@@ -14,19 +14,21 @@ class ProdutoInsumoService {
         await this.DeletarProdutoInsumoDoProdutoAsync(produtoInsumosDto.ProdutoId, produtoInsumosDto.UsuarioId);    
 
         produtoInsumosDto.Ingredientes.forEach(async (insumo) => {
-            let produtoInsumoParaAdicionarDto = {
+            let produtoInsumoRequestDto = {
                 Id: _guidExtensions.NewGuid(),
                 ProdutoId: produtoInsumosDto.ProdutoId,
                 Nome: insumo, 
                 DataDeCadastro: _dateTimeExtensions.DateTimeNow(),
                 UsuarioDeCadastroId: produtoInsumosDto.UsuarioId
             };
-            let produtoInsumoRequestDto = Object.assign(produtoInsumoParaAdicionarDto);
+            let produtoInsumoParaAdicionarDto = Object.assign(produtoInsumoRequestDto);
+
             await _produtoInsumoValidator.AdicionarProdutoInsumoValidateRequestAsync(produtoInsumoRequestDto)
             await _produtoInsumoRepository.AdicionarProdutoInsumoAsync(produtoInsumoParaAdicionarDto);
         });
     }
 
+    // Parametros "ProdutoId" e "UsuarioDeExclusaoId"
     async DeletarProdutoInsumoDoProdutoAsync(produtoId, usuarioDeExclusaoId) {
         let _dateTimeExtensions = new DateTimeExtensions();
         let _produtoInsumoRepository = new ProdutoInsumoRepository();
@@ -44,6 +46,7 @@ class ProdutoInsumoService {
         return await _produtoInsumoRepository.DeletarProdutoInsumoDoProdutoAsync(produtoInsumoParaDeletarDto);
     }
 
+    // Parâmetro "QueryWhere" contendo a cláusula WHERE responsável pela consulta
     async GetAllProdutosInsumosAsync(queryWhere) {
         let _produtoInsumoRepository = new ProdutoInsumoRepository();
         
@@ -53,6 +56,7 @@ class ProdutoInsumoService {
         return await _produtoInsumoRepository.GetAllProdutosInsumosAsync(queryWhere);
     }
 
+    // Parâmetro "ProdutoId"
     async GetProdutoInsumoByProdutoIdAsync(produtoId) {
         let _produtoInsumoRepository = new ProdutoInsumoRepository();
         return await _produtoInsumoRepository.GetProdutoInsumoByProdutoIdAsync(produtoId);

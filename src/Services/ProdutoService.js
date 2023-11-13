@@ -63,7 +63,6 @@ class ProdutoService {
         let imagemId = produto.ImagemId;
 
         if (produtoRequestDto.AlterouAImagem) {
-            console.log("AlterouAImagem")
             let imagemRequestDto = {
                 Id: produto.ImagemId,
                 NomeDoArquivo: produto.NomeDoArquivoDaImagem,
@@ -124,11 +123,10 @@ class ProdutoService {
 
         if (busca && busca !== null && busca !== undefined) {
             let filtros = busca.split(" "); 
-            let queryWhereProdutoInsumos = this.GetQueryWhereProdutoInsumo(filtros);
-            let queryWhereProdutos = this.GetQueryWhereProduto(filtros);
-
-            produtos = await _produtoRepository.GetAllProdutosAsync(queryWhereProdutos);
-            produtosInsumos = await _produtoInsumoService.GetAllProdutosInsumosAsync(queryWhereProdutoInsumos);
+            let objetoQueryWhere = this.GetQueryWhereDeProdutoEProdutoInsumo(filtros);
+            
+            produtos = await _produtoRepository.GetAllProdutosAsync(objetoQueryWhere.QueryWhereProduto);
+            produtosInsumos = await _produtoInsumoService.GetAllProdutosInsumosAsync(objetoQueryWhere.QueryWhereProdutoInsumo);
         }
         else {
             produtos = await _produtoRepository.GetAllProdutosAsync("");
@@ -164,40 +162,33 @@ class ProdutoService {
         return retorno;
     }
 
-    GetQueryWhereProduto(filtros) {
-        let queryRetorno = " AND ( ";
+    GetQueryWhereDeProdutoEProdutoInsumo(filtros) {
+        let objetoRetorno = {
+            QueryWhereProduto: " AND (",
+            QueryWhereProdutoInsumo: " AND ("
+        };
+
         for (let index = 0; index < filtros.length; index++) {
             let filtro = filtros[index];
-            let query = `Produto.Nome LIKE '%${filtro}%' OR Produto.Descricao LIKE '%${filtro}%'`; 
-           
-            if (index != filtros.length - 1) {
-                queryRetorno += `${query} OR `; 
-            }
-            else {
-                queryRetorno += `${query}`;
-            }
-        }
-        queryRetorno += " ) ";
 
-        return queryRetorno;
-    }
+            if (filtro.trim() === "") continue;
 
-    GetQueryWhereProdutoInsumo(filtros) {
-        let queryRetorno = " AND ( ";
-        for (let index = 0; index < filtros.length; index++) {
-            let filtro = filtros[index];
-            let query = `ProdutoInsumo.Nome LIKE '%${filtro}%'`; 
+            let whereProduto = `Produto.Nome LIKE '%${filtro}%' OR Produto.Descricao LIKE '%${filtro}%'`; 
+            let whereProdutoInsumo = `ProdutoInsumo.Nome LIKE '%${filtro}%'`; 
             
-            if (index != filtros.length - 1) {
-                queryRetorno += `${query} OR `; 
+            if (index == filtros.length - 1) {
+                objetoRetorno.QueryWhereProduto += `${whereProduto}`;
+                objetoRetorno.QueryWhereProdutoInsumo += `${whereProdutoInsumo}`;
             }
             else {
-                queryRetorno += `${query}`;
+                objetoRetorno.QueryWhereProduto += `${whereProduto} OR `;
+                objetoRetorno.QueryWhereProdutoInsumo += `${whereProdutoInsumo} OR `;
             }
         }
-        queryRetorno += " ) ";
+        objetoRetorno.QueryWhereProduto += ") ";
+        objetoRetorno.QueryWhereProdutoInsumo += ") ";
 
-        return queryRetorno;
+        return objetoRetorno;
     }
 }
 
