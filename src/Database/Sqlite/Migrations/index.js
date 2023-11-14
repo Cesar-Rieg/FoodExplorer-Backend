@@ -8,6 +8,8 @@ const CreateTableCategoriaDoProduto = require("./CreateTableCategoriaDoProduto.j
 const CreateTableProduto = require("./CreateTableProduto.js");
 const CreateTableProdutoInsumo = require("./CreateTableProdutoInsumo.js");
 
+const CreateTableFavorito = require("./CreateTableFavorito.js");
+
 async function RunMigrations(){
     const Schemas = [
         CreateTableImagem,
@@ -15,7 +17,8 @@ async function RunMigrations(){
         CreateTableUsuario,
         CreateTableCategoriaDoProduto,
         CreateTableProduto,
-        CreateTableProdutoInsumo
+        CreateTableProdutoInsumo,
+        CreateTableFavorito
     ].join('');
 
     SqliteConnection()
