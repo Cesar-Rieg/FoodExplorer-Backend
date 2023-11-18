@@ -191,10 +191,29 @@ class ProdutoService {
                 objetoRetorno.QueryWhereProdutoInsumo += `${whereProdutoInsumo} OR `;
             }
         }
-        objetoRetorno.QueryWhereProduto += ") ";
+        objetoRetorno.QueryWhereProduto += " {0} ) ";
         objetoRetorno.QueryWhereProdutoInsumo += ") ";
+        
+        this.AdicionarQueryWhereProdutoInsumoExistsNaQueryDeProduto(objetoRetorno);
 
         return objetoRetorno;
+    }
+
+    AdicionarQueryWhereProdutoInsumoExistsNaQueryDeProduto(objetoRetorno) {
+        objetoRetorno.QueryWhereProduto = objetoRetorno.QueryWhereProduto.replace(`{0}`, `
+            OR EXISTS (
+                SELECT 
+                    ProdutoInsumo.Id,
+                    ProdutoInsumo.ProdutoId,
+                    ProdutoInsumo.Nome
+                FROM 
+                    ProdutoInsumo	
+                WHERE
+                    ProdutoInsumo.Excluido = 0
+                    AND ProdutoInsumo.ProdutoId = Produto.Id
+                    ${objetoRetorno.QueryWhereProdutoInsumo}		
+            )
+        `);
     }
 }
 
