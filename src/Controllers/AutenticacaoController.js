@@ -17,6 +17,8 @@ class AutenticacaoController {
         };
 
         let usuarioContext = await _usuarioService.GetUsuarioByEmailAsync(usuarioRequestDto);
+        delete usuarioContext.Senha;
+
         let senhaValida = await compare(usuarioRequestDto.Senha, usuarioContext.Senha);
         if (!senhaValida) {
             throw new ApiException("E-mail e/ou senha inválidos.", HttpStatusCode.BadRequest);
