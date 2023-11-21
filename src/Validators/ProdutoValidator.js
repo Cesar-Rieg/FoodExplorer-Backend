@@ -32,6 +32,7 @@ class ProdutoValidator {
     async DeletarProdutoValidateRequestAsync(produtoRequestDto) {
         await this.ApplyRulesToProdutoRequestDto(produtoRequestDto);
         await this.ApplyRulesToIdAsync(produtoRequestDto);
+        await this.ExistsByIdAsync(produtoRequestDto);
     }
 
     // Apply Rules
