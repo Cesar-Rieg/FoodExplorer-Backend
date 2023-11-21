@@ -102,19 +102,29 @@ class ProdutoService {
     // Parametro produtoRequestDto contendo as propriedades "Id" do produto, e "UsuarioDeExclusaoId"
     async DeletarProdutoAsync(produtoRequestDto) {
         let _dateTimeExtensions = new DateTimeExtensions();
+        let _imagemService = new ImagemService();
         let _produtoInsumoService = new ProdutoInsumoService();
         let _produtoRepository = new ProdutoRepository(); 
         let _produtoValidator = new ProdutoValidator();
 
         await _produtoValidator.DeletarProdutoValidateRequestAsync(produtoRequestDto);
 
+        let produto = await _produtoRepository.GetProdutoByIdAsync(produtoRequestDto.Id);
+
         let produtoDto = {
-            Id: produtoRequestDto.Id,
+            Id: produto.Id,
             Excluido: true,
             DataDeExclusao: _dateTimeExtensions.DateTimeNow(),
-            UsuarioDeExclusaoId: produtoRequestDto.UsuarioDeExclusaoId,
+            UsuarioDeExclusaoId: produtoRequestDto.UsuarioDeExclusaoId
         }
 
+        let imagemParaDeletarRequestoDto = {
+            Id: produto.ImagemId, 
+            NomeDoArquivo: produto.NomeDoArquivoDaImagem,
+            UsuarioDeAlteracaoId: produtoRequestDto.UsuarioDeExclusaoId
+        };
+
+        await _imagemService.DeletarImagemAsync(imagemParaDeletarRequestoDto);
         await _produtoInsumoService.DeletarProdutoInsumoDoProdutoAsync(produtoDto.Id, produtoDto.UsuarioDeExclusaoId);
         return await _produtoRepository.DeletarProdutoAsync(produtoDto);
     }
