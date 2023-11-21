@@ -84,7 +84,7 @@ class UsuarioRepository {
                 Usuario.ImagemId,
                 Imagem.NomeDoArquivo AS NomeDoArquivoDaImagem,
                 Usuario.PerfilDeUsuarioId,
-                PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
+                PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDiscriminator,
                 (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
                 Usuario.DataDeCadastro,
                 Usuario.DataDeAlteracao
@@ -115,7 +115,7 @@ class UsuarioRepository {
                 Usuario.ImagemId,
                 Imagem.NomeDoArquivo AS NomeDoArquivoDaImagem,
                 Usuario.PerfilDeUsuarioId,
-                PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDescriminator,
+                PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDiscriminator,
                 (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
                 Usuario.DataDeCadastro,
                 Usuario.DataDeAlteracao
