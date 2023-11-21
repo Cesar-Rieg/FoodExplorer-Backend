@@ -13,19 +13,19 @@ class ProdutoInsumoService {
 
         await this.DeletarProdutoInsumoDoProdutoAsync(produtoInsumosDto.ProdutoId, produtoInsumosDto.UsuarioId);    
 
-        produtoInsumosDto.Ingredientes.forEach(async (insumo) => {
+        for (let i = 0; i < produtoInsumosDto.Ingredientes.length; i++) {
             let produtoInsumoRequestDto = {
                 Id: _guidExtensions.NewGuid(),
                 ProdutoId: produtoInsumosDto.ProdutoId,
-                Nome: insumo, 
+                Nome: produtoInsumosDto.Ingredientes[i], 
                 DataDeCadastro: _dateTimeExtensions.DateTimeNow(),
                 UsuarioDeCadastroId: produtoInsumosDto.UsuarioId
             };
             let produtoInsumoParaAdicionarDto = Object.assign(produtoInsumoRequestDto);
-
+            
             await _produtoInsumoValidator.AdicionarProdutoInsumoValidateRequestAsync(produtoInsumoRequestDto)
             await _produtoInsumoRepository.AdicionarProdutoInsumoAsync(produtoInsumoParaAdicionarDto);
-        });
+        }
     }
 
     // Parametros "ProdutoId" e "UsuarioDeExclusaoId"
