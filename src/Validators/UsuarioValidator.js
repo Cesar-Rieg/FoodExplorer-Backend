@@ -43,6 +43,12 @@ class UsuarioValidator {
         await this.ExistsByEmailAsync(usuarioRequestDto);
     }
 
+    async GetUsuarioByIdValidateRequestAsync(usuarioRequestDto) {
+        await this.ApplyRulesToUsuarioRequestDto(usuarioRequestDto);
+        await this.ApplyRulesToIdAsync(usuarioRequestDto);
+        await this.ExistsByIdAsync(usuarioRequestDto);
+    }
+
 
     // Apply Rules
     async ApplyRulesToAlteracaoDeSenhaAsync(usuarioRequestDto) {

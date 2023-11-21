@@ -75,27 +75,10 @@ class UsuarioRepository {
             email
         ];
 
-        return await database.get(`
-            SELECT
-                Usuario.Id,
-                Usuario.Nome,
-                Usuario.Email,
-                Usuario.Senha,
-                Usuario.ImagemId,
-                Imagem.NomeDoArquivo AS NomeDoArquivoDaImagem,
-                Usuario.PerfilDeUsuarioId,
-                PerfilDeUsuario.Discriminator AS PerfilDeUsuarioDiscriminator,
-                (PerfilDeUsuario.Discriminator = (?)) AS IsAdmin,
-                Usuario.DataDeCadastro,
-                Usuario.DataDeAlteracao
-            FROM 
-                Usuario
-                INNER JOIN PerfilDeUsuario ON Usuario.PerfilDeUsuarioId = PerfilDeUsuario.Id
-                LEFT JOIN Imagem ON Usuario.ImagemId = Imagem.Id
-            WHERE
-                Usuario.Email = (?)
-                AND Usuario.Excluido = 0
-        `, parametrosSql);
+        let query = this.GetQueryDeSelectPadrao();
+        query += " AND Usuario.Email = (?)";
+
+        return await database.get(query, parametrosSql);
     }
 
     async GetUsuarioByIdAsync(id) {
@@ -106,7 +89,14 @@ class UsuarioRepository {
             id
         ];
 
-        return await database.get(`
+        let query = this.GetQueryDeSelectPadrao();
+        query += " AND Usuario.Id = (?)";
+
+        return await database.get(query, parametrosSql);
+    }
+
+    GetQueryDeSelectPadrao() {
+        return `
             SELECT
                 Usuario.Id,
                 Usuario.Nome,
@@ -124,9 +114,8 @@ class UsuarioRepository {
                 INNER JOIN PerfilDeUsuario ON Usuario.PerfilDeUsuarioId = PerfilDeUsuario.Id
                 LEFT JOIN Imagem ON Usuario.ImagemId = Imagem.Id
             WHERE
-                Usuario.Id = (?)
-                AND Usuario.Excluido = 0
-        `, parametrosSql);
+                Usuario.Excluido = 0
+        `;
     }
 }
 

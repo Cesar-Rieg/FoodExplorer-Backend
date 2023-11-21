@@ -93,6 +93,16 @@ class UsuarioService {
         return usuarioContext;
     }
 
+    async GetUsuarioByIdAsync(usuarioRequestDto) {
+        let _usuarioRepository = new UsuarioRepository();
+        let _usuarioValidator = new UsuarioValidator(); 
+
+        await _usuarioValidator.GetUsuarioByIdValidateRequestAsync(usuarioRequestDto);
+        let usuarioContext = await _usuarioRepository.GetUsuarioByIdAsync(usuarioRequestDto.Id);
+
+        return usuarioContext;
+    }
+
     async VerificarSeOUsuarioRealizouAlteracaoDeSenhaAsync(usuarioRequestDto) {
         if ((usuarioRequestDto.Senha !== null && usuarioRequestDto.Senha?.trim() !== "" && usuarioRequestDto.Senha !== undefined)
             || (usuarioRequestDto.SenhaAnterior !== null && usuarioRequestDto.SenhaAnterior?.trim() !== "" && usuarioRequestDto.SenhaAnterior !== undefined))
