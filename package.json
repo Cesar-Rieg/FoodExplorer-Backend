@@ -1,14 +1,15 @@
 {
   "name": "foodexplorer-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "API BackEnd desenvolvida no curso Explorer da Rocketseat.",
   "main": "index.js",
   "scripts": {
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "César Jean Rieg",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
