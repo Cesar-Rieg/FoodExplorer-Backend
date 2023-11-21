@@ -3,7 +3,7 @@
   Food Explorer
 </h1>
 
-> Cardápio digital para um restaurante fictício
+> BackEnd de um cardápio digital para um restaurante fictício
 
 <p align="center">
   <a href="#project">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -56,7 +56,7 @@ Tecnologias utilizadas no desenvolvimento:
 
 O back-end do projeto está hospedado no endereço {link do back-end hospedado}. A aplicação Food Explorer está disponível para uso [aqui](link do frond-end hospedado).
 
-⚠️ **Importante**: Como este projeto está hospedado em um serviço gratuido, podem ocorrer atrasos no tempo de resposta do servidor.
+⚠️ **Importante**: Como este projeto está hospedado em um serviço gratuito, podem ocorrer atrasos no tempo de resposta do servidor.
 
 É possível também executar na máquina local. Para isto, é necessário que você tenha instalado o ``Node.js`` e o ``npm`` antes de prosseguir com as etapas a seguir:
 
@@ -91,6 +91,8 @@ $ npm run dev
 
 - No campo PORT deve ser informado o número da porta que irá executar o servidor da aplicação.
 
+
+---
 
 Desenvolvido por César Rieg
 
