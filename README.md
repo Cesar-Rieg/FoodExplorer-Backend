@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="#project">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#structure">Estrutura</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#database-structure">Estrutura do banco de dados</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#technologies">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#usage">Utilização</a>&nbsp;&nbsp;&nbsp;
 </p>
@@ -19,7 +19,7 @@ O projeto Food Exporer deste repositório refere-se ao desafio final do curso Ex
 Este repositório está composto apenas pelo BackEnd do projeto, responsável pela lógica da aplicação e armazenamento dos dados.
 Fique a vontade para visualizar o projeto de FrontEnd da aplicação, responsável pela interface do usuário, clicando [aqui](https://github.com/Cesar-Rieg/FoodExplorer-Frontend).
 
-<h2 id="structure">🎲 Estrutura do Banco de Dados</h2>
+<h2 id="database-structure">🎲 Estrutura do Banco de Dados</h2>
 
 O Banco de dados foi estruturado com as seguintes tabelas:
 
@@ -58,7 +58,7 @@ O back-end do projeto está hospedado no endereço {link do back-end hospedado}.
 
 ⚠️ **Importante**: Como este projeto está hospedado em um serviço gratuito, podem ocorrer atrasos no tempo de resposta do servidor.
 
-É possível também executar na máquina local. Para isto, é necessário que você tenha instalado o ``Node.js`` e o ``npm`` antes de prosseguir com as etapas a seguir:
+É possível também executar em sua máquina local. Para isto, é necessário que você tenha instalado o ``Node.js`` e o ``npm`` antes de prosseguir com as etapas a seguir:
 
 1. Clone o projeto:
 
@@ -94,7 +94,7 @@ $ npm run dev
 
 ---
 
-Desenvolvido por César Rieg
+Desenvolvido por César Rieg 🚀
 
 <div style="display: flex;">
   <a href="https://www.linkedin.com/in/cesar-rieg/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" style="margin-right: 2vw" target="_blank"></a>
