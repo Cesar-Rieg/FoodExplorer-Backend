@@ -13,7 +13,7 @@ const _uploadDeImagem = multer(UploadDeImagemConfig.MULTER);
 produtoRoutes.use(usuarioAutenticado);
 
 produtoRoutes.get('/', _produtoController.ListagemDeProdutos);
-produtoRoutes.get('/:id', checkPermissaoDeAcessoAdmin,_produtoController.GetProdutoByIdAsync);
+produtoRoutes.get('/:id', _produtoController.GetProdutoByIdAsync);
 produtoRoutes.post('/', checkPermissaoDeAcessoAdmin, _uploadDeImagem.single("imagem"), _produtoController.AdicionarProdutoAsync);
 produtoRoutes.put('/:id', checkPermissaoDeAcessoAdmin, _uploadDeImagem.single("imagem"), _produtoController.AlterarProdutoAsync);
 produtoRoutes.delete('/:id', checkPermissaoDeAcessoAdmin, _produtoController.DeletarProdutoAsync);
