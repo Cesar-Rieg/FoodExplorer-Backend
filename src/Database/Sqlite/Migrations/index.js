@@ -1,4 +1,4 @@
-const SqliteConnection = require("../../sqlite");
+const SqliteConnection = require("../../Sqlite");
 
 const CreateTableImagem = require("./CreateTableImagem.js");
 const CreateTablePerfilDeUsuario = require("./CreateTablePerfilDeUsuario.js");
