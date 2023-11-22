@@ -54,7 +54,7 @@ Tecnologias utilizadas no desenvolvimento:
 
 <h2 id="usage">💡 Utilização</h2>
 
-O back-end do projeto está hospedado no endereço {link do back-end hospedado}. A aplicação Food Explorer está disponível para uso [aqui](link do frond-end hospedado).
+O back-end do projeto está hospedado no endereço https://foodexplorer-3skd.onrender.com. A aplicação Food Explorer está disponível para uso [aqui](https://rieg-food-explorer.netlify.app/).
 
 ⚠️ **Importante**: Como este projeto está hospedado em um serviço gratuito, podem ocorrer atrasos no tempo de resposta do servidor.
 
