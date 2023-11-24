@@ -17,7 +17,7 @@
 O projeto Food Exporer deste repositório refere-se ao desafio final do curso Explorer da Rocketseat, compondo um cardápio digital de um restaurante fictício.
 
 Este repositório está composto apenas pelo BackEnd do projeto, responsável pela lógica da aplicação e armazenamento dos dados.
-Fique a vontade para visualizar o projeto de FrontEnd da aplicação, responsável pela interface do usuário, clicando [aqui](https://github.com/Cesar-Rieg/FoodExplorer-Frontend).
+Fique a vontade para visualizar o projeto de FrontEnd da aplicação, responsável pela interface do usuário, clicando <a href="https://github.com/Cesar-Rieg/FoodExplorer-Frontend" target="_blank">aqui</a>.
 
 <h2 id="database-structure">🎲 Estrutura do Banco de Dados</h2>
 
@@ -54,7 +54,7 @@ Tecnologias utilizadas no desenvolvimento:
 
 <h2 id="usage">💡 Utilização</h2>
 
-O back-end do projeto está hospedado no endereço https://foodexplorer-3skd.onrender.com. A aplicação Food Explorer está disponível para uso [aqui](https://rieg-food-explorer.netlify.app/).
+O back-end do projeto está hospedado no endereço https://foodexplorer-3skd.onrender.com. A aplicação Food Explorer está disponível para uso <a href="https://rieg-food-explorer.netlify.app/" target="_blank">aqui</a>.
 
 ⚠️ **Importante**: Como este projeto está hospedado em um serviço gratuito, podem ocorrer atrasos no tempo de resposta do servidor.
 
